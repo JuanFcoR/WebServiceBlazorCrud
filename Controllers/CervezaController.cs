@@ -17,10 +17,10 @@ namespace WebServiceBlazorCrud.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            Respuesta<List<Cerveza>> oRespuesta = new Respuesta<List<Cerveza>>();
+            Respuesta oRespuesta = new Respuesta();
             try
             {
-                
+
                 using (BlazorCrudContext db = new BlazorCrudContext())
                 {
                     var lst = db.Cervezas.ToList();
@@ -33,38 +33,45 @@ namespace WebServiceBlazorCrud.Controllers
 
                 oRespuesta.Mensaje = ex.Message;
             }
-            
-            
+
+
             return Ok(oRespuesta);
         }
         [HttpGet("{Id}")]
         public IActionResult Get(int Id)
         {
-            Respuesta<Cerveza> oRespuesta = new Respuesta<Cerveza>();
+            BlazorCrudContext db = new BlazorCrudContext();
+            Cerveza cerveza = db.Cervezas.Find(Id);
+            Respuesta oRespuesta = new Respuesta();
             try
             {
 
-                using (BlazorCrudContext db = new BlazorCrudContext())
-                {
-                    var lst = db.Cervezas.Find(Id);
-                    oRespuesta.Exito = 1;
-                    oRespuesta.Data = lst;
-                }
+                
+                
+                cerveza = db.Cervezas.Find(Id);
+
+                oRespuesta.Exito = 1;
+
+                
             }
             catch (Exception ex)
             {
 
                 oRespuesta.Mensaje = ex.Message;
             }
+            finally
+            {
+                db.Dispose();
+            }
 
 
-            return Ok(oRespuesta);
+            return Ok(cerveza);
         }
 
         [HttpPost]
         public IActionResult Add(CervezaRequest model)
         {
-            Respuesta<List<Cerveza>> oRespuesta = new Respuesta<List<Cerveza>>();
+            Respuesta oRespuesta = new Respuesta();
             try
             {
 
@@ -81,8 +88,8 @@ namespace WebServiceBlazorCrud.Controllers
             catch (Exception ex)
             {
 
-                // oRespuesta.Mensaje = ex.Message;
-                throw;
+                 oRespuesta.Mensaje = ex.Message;
+                //throw;
             }
 
 
@@ -92,7 +99,7 @@ namespace WebServiceBlazorCrud.Controllers
         [HttpPut]
         public IActionResult Edit(CervezaRequest model)
         {
-            Respuesta<List<Cerveza>> oRespuesta = new Respuesta<List<Cerveza>>();
+            Respuesta oRespuesta = new Respuesta();
             try
             {
 
@@ -119,7 +126,7 @@ namespace WebServiceBlazorCrud.Controllers
         [HttpDelete("{Id}")]
         public IActionResult Delete(int Id)
         {
-            Respuesta<List<Cerveza>> oRespuesta = new Respuesta<List<Cerveza>>();
+            Respuesta oRespuesta = new Respuesta();
             try
             {
 
@@ -131,10 +138,11 @@ namespace WebServiceBlazorCrud.Controllers
                     oRespuesta.Exito = 1;
                 }
             }
+
             catch (Exception ex)
             {
 
-                throw;
+                oRespuesta.Mensaje = ex.Message;
             }
 
 
