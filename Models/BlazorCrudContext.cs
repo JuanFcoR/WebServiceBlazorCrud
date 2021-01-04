@@ -23,15 +23,16 @@ namespace WebServiceBlazorCrud.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(
+                /*optionsBuilder.UseSqlServer(
                     "Server=tcp:juansfcorerver.database.windows.net,1433;Initial Catalog=BlazorCrud;Persist Security Info=False;User ID=juanfcor;Password=Softendo03;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-                   );
+                   );*/
+                optionsBuilder.UseMySQL(@"Server =bxpp4awzgjkuajm3fvl6-mysql.services.clever-cloud.com; Database=bxpp4awzgjkuajm3fvl6; Uid=u81tdr5i30nvfgey; Pwd=QJ4Qpz9jBzbgeJL25g6i; Port=3306; ");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Latin1_General_CI_AI");
+            modelBuilder.HasAnnotation("Relational:Collation", "utf8_unicode_ci");
 
             modelBuilder.Entity<Cerveza>(entity =>
             {
