@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebServiceBlazorCrud.Models;
@@ -16,6 +17,7 @@ namespace WebServiceBlazorCrud.Controllers
     public class CervezaController : ControllerBase
     {
         [HttpGet]
+        [Authorize]
         public IActionResult Get()
         {
             Respuesta oRespuesta = new Respuesta();
@@ -39,6 +41,7 @@ namespace WebServiceBlazorCrud.Controllers
             return Ok(oRespuesta);
         }
         [HttpGet("{Id}")]
+        [Authorize]
         public IActionResult Get(int Id)
         {
             BlazorCrudContext db = new BlazorCrudContext();
@@ -69,56 +72,7 @@ namespace WebServiceBlazorCrud.Controllers
             return Ok(cerveza);
         }
 
-        public static List<Cerveza> BusquedaAvanzada(int param, string criterio,Respuesta resp)
-        {
-            BlazorCrudContext db = new BlazorCrudContext();
-            
-            List<Cerveza> oCerveza = new List<Cerveza>();
-
-            try
-            {
-                switch (param)
-                {
-                    case 0:
-                        oCerveza = db.Cervezas.ToList();
-                        resp.Exito = 1;
-                        break;
-                    case 1:
-                        oCerveza = db.Cervezas.Where(a => a.Id == Convert.ToInt64(criterio)).ToList();
-                        resp.Exito = 1;
-                        break;
-                    case 2:
-                        oCerveza = db.Cervezas.Where(a => a.Nombre.Contains(criterio)).ToList();
-                        resp.Exito = 1;
-                        break;
-                    case 3:
-                        oCerveza = db.Cervezas.Where(a => a.Marca.Contains(criterio)).ToList();
-                        resp.Exito = 1;
-                        break;
-
-                    default:
-                        oCerveza = new List<Cerveza>();
-                        resp.Exito = 0;
-                        resp.Mensaje = "Este parametro no existe";
-                        break;
-                }
-
-
-
-            }
-            catch (Exception ex)
-            {
-                resp.Mensaje = ex.Message;
-              
-            }
-            finally
-            {
-                db.Dispose();
-            }
-
-
-            return oCerveza;
-        }
+        
 
         public static KeyValuePair<Respuesta, List<Cerveza>> GetValores(int param, string criterio)
         {
@@ -174,6 +128,7 @@ namespace WebServiceBlazorCrud.Controllers
         }
 
         [HttpGet("{param}/{criterio}")]
+        [Authorize]
         public IActionResult GetAvanzado(int param, string criterio)
         {
             var valores = GetValores(param, criterio);
@@ -186,6 +141,7 @@ namespace WebServiceBlazorCrud.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public IActionResult Add(CervezaRequest model)
         {
             Respuesta oRespuesta = new Respuesta();
@@ -214,6 +170,7 @@ namespace WebServiceBlazorCrud.Controllers
         }
 
         [HttpPut]
+        [Authorize]
         public IActionResult Edit(CervezaRequest model)
         {
             Respuesta oRespuesta = new Respuesta();
@@ -250,6 +207,7 @@ namespace WebServiceBlazorCrud.Controllers
         }
 
         [HttpDelete("{Id}")]
+        [Authorize]
         public IActionResult Delete(int Id)
         {
             Respuesta oRespuesta = new Respuesta();
