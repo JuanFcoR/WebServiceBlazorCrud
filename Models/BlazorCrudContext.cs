@@ -19,7 +19,8 @@ namespace WebServiceBlazorCrud.Models
         }
 
         public virtual DbSet<Cerveza> Cervezas { get; set; }
-        public virtual DbSet<Usuario> Usuario { get; set; }
+        public virtual DbSet<Usuario> Usuarios { get; set; }
+        public virtual DbSet<Producto> Productos { get; set; }
 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -112,6 +113,33 @@ namespace WebServiceBlazorCrud.Models
                     .HasColumnType("varchar(10)")
                     .HasCharSet("utf8")
                     .HasCollation("utf8_general_ci");
+            });
+
+            modelBuilder.Entity<Producto>(entity =>
+            {
+                entity.ToTable("producto");
+
+                entity.Property(e => e.ProductoId).HasColumnType("int(11)");
+
+                entity.Property(e => e.Cantidad).HasColumnType("decimal(7,2)");
+
+                entity.Property(e => e.Descripcion)
+                    .HasColumnType("varchar(30)")
+                    .HasCharSet("utf8")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.Itbis)
+                    .HasColumnName("ITBIS")
+                    .HasColumnType("decimal(4,2)");
+
+                entity.Property(e => e.Nombre)
+                    .HasColumnType("varchar(15)")
+                    .HasCharSet("utf8")
+                    .HasCollation("utf8_general_ci");
+
+                entity.Property(e => e.Precio).HasColumnType("decimal(8,2)");
+
+                entity.Property(e => e.Reorden).HasColumnType("decimal(6,2)");
             });
 
             OnModelCreatingPartial(modelBuilder);

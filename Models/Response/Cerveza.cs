@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 #nullable disable
 
-namespace WebServiceBlazorCrud.Models
+namespace WebServiceBlazorCrud.Models.Response
 {
     public partial class Cerveza
     {

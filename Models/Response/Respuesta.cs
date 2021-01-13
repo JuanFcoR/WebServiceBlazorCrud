@@ -9,7 +9,8 @@ namespace WebServiceBlazorCrud.Models.Response
     {
         public int Exito { get; set; }
         public string Mensaje { get; set; }
-        public List<Cerveza> Data { get; set; }
+        public List<Cerveza> CervezaData { get; set; }
+        public List<Producto> ProductoData { get; set; }
 
 
         public Respuesta()
